@@ -4,11 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <list>
-#include <set>
 #include <algorithm>
 #include <fstream>
-
 
 template <class T>
 void RedrawConsoleInterface(const NLifeGame::TGame<T>& game) {
@@ -22,20 +19,29 @@ void RedrawConsoleInterface(const NLifeGame::TGame<T>& game) {
 	std::cout << game.GetState();
 }
 
-int main() {
-	std::ifstream input("life.txt");
-	std::vector<std::string> inputData;
+int main(int argc, char* argv[]) {
+    if (argc != 2) {
+        std::cout << "Program usage: game_life input_file" << std::endl;
+        return 1;
+    }
+    const std::string filename = argv[1];
+	std::ifstream input(filename);
+    if (input.fail()) {
+        std::cout << "Cannot read from file: " << filename << std::endl;
+        return 1;
+    }
+    std::vector<std::vector<bool>> map;
 	for (std::string line; input >> line;) {
-		inputData.push_back(line);
-	}
-	std::vector<std::vector<bool>> map(inputData.size(), std::vector<bool>(inputData.front().size(), false));
-	for (ui32 x = 0; x < inputData.size(); ++x) {
-		auto& row = inputData[x];
-		map[x].resize(row.size());
-		std::transform(row.begin(), row.end(), map[x].begin(), [](char c) {return (c != '0'); });
+        if (map.size() && line.size() != map.back().size()) {
+            std::cout << "Incorrect input data: the rows must be the same size" << std::endl;
+            return 1;
+        }
+        std::vector<bool> row(line.size());
+        std::transform(line.begin(), line.end(), row.begin(), [](char c) {return (c != '0'); });
+        map.push_back(row);
 	}
 
-	NLifeGame::TGame<NLifeGame::TVectorState> game(map);
+	NLifeGame::TGame<> game(map);
 
 	RedrawConsoleInterface(game);
 

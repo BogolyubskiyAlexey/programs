@@ -14,7 +14,6 @@ using ui8 = uint8_t;
 using ui32 = uint32_t;
 
 namespace NLifeGame {
-
 	class IState {
 	public:
 		IState(ui32 sizeX, ui32 sizeY);
@@ -55,7 +54,7 @@ namespace NLifeGame {
 		std::vector<std::vector<bool>> Map;
 	};
 
-	template <class TState>
+	template <class TState = TVectorState>
 	class TGame {
 	public:
 		TGame(const std::vector<std::vector<bool>>& state)

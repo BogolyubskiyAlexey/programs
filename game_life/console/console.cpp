@@ -14,17 +14,17 @@
 namespace NConsoleUtil {
 	char GetPressedKey() {
 #ifdef __linux__ 
-        termios old, current;
-        tcgetattr(0, &old);
-        current = old;
-        current.c_lflag &= ~ICANON;
-        current.c_lflag &= ~ECHO;
-        tcsetattr(0, TCSANOW, &current);
+		termios old, current;
+		tcgetattr(0, &old);
+		current = old;
+		current.c_lflag &= ~ICANON;
+		current.c_lflag &= ~ECHO;
+		tcsetattr(0, TCSANOW, &current);
 
-        char ch = getchar();
-          
-        tcsetattr(0, TCSANOW, &old);
-        return ch;
+		char ch = getchar();
+		  
+		tcsetattr(0, TCSANOW, &old);
+		return ch;
 #elif _WIN32
 		return _getch();
 #endif

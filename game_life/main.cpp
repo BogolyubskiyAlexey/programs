@@ -20,25 +20,25 @@ void RedrawConsoleInterface(const NLifeGame::TGame<T>& game) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 2) {
-        std::cout << "Program usage: game_life input_file" << std::endl;
-        return 1;
-    }
-    const std::string filename = argv[1];
+	if (argc != 2) {
+		std::cout << "Program usage: game_life input_file" << std::endl;
+		return 1;
+	}
+	const std::string filename = argv[1];
 	std::ifstream input(filename);
-    if (input.fail()) {
-        std::cout << "Cannot read from file: " << filename << std::endl;
-        return 1;
-    }
-    std::vector<std::vector<bool>> map;
+	if (input.fail()) {
+		std::cout << "Cannot read from file: " << filename << std::endl;
+		return 1;
+	}
+	std::vector<std::vector<bool>> map;
 	for (std::string line; input >> line;) {
-        if (map.size() && line.size() != map.back().size()) {
-            std::cout << "Incorrect input data: the rows must be the same size" << std::endl;
-            return 1;
-        }
-        std::vector<bool> row(line.size());
-        std::transform(line.begin(), line.end(), row.begin(), [](char c) {return (c != '0'); });
-        map.push_back(row);
+		if (map.size() && line.size() != map.back().size()) {
+			std::cout << "Incorrect input data: the rows must be the same size" << std::endl;
+			return 1;
+		}
+		std::vector<bool> row(line.size());
+		std::transform(line.begin(), line.end(), row.begin(), [](char c) {return (c != '0'); });
+		map.push_back(row);
 	}
 
 	NLifeGame::TGame<> game(map);
@@ -52,9 +52,9 @@ int main(int argc, char* argv[]) {
 		} else if (key == 'r') {
 			game.Run();
 		} else {
-            std::cout << "Unsupported key pressed" << std::endl;
-            continue;
-        }
+			std::cout << "Unsupported key pressed" << std::endl;
+			continue;
+		}
 		RedrawConsoleInterface(game);
 	}
 }
